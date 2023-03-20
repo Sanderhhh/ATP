@@ -1,12 +1,20 @@
-turtles-own [
-  age             ;; Keeps track of age in years
-  thirst          ;; Keeps track of how moisturized a turtle is
-  hunger
-  sex             ;; Biological sex for eventual reproduction
+__includes["turtles.nls"]
+
+breed [humans human]
+
+humans-own [
+ temp-pref
+ humid-pref
+ energy
+ agression
 ]
 
 to setup
   clear-all
+  set growth-offset [0 0.9 1 0.6]
+  set spread-offset [1 0.5 0.9 0.8]
+  setup-world
+
   ask n-of number patches [
     sprout 1
   ]
@@ -18,82 +26,43 @@ end
 
 to go
   ask turtles [update-turtles]
+  update-patches
   tick
 end
 
-
-to init-turtle
-  ;; if initializing, create population with randomly distrubuted age
-  if ticks = 0 [
-    set age random 70
-  ]
-  ;; if not initializing, age is set to 0, because turtle is a baby
-  if ticks != 0 [
-    set age 0
-  ]
-  set thirst random 100
-  set hunger random 100
-  set sex random 1
-end
-
-to update-turtles
-  if age > 80 [
-    die
-  ]
-  ;; update age as follows, such that every tick represents a year
-  set age (age + 1)
-  ;; water more important than food
-  set hunger (hunger - 50)
-  set thirst (thirst - 100)
-end
 @#$#@#$#@
 GRAPHICS-WINDOW
 210
 10
-647
-448
+822
+623
 -1
 -1
-13.0
+4.0
 1
 10
 1
 1
 1
 0
-1
-1
-1
--16
-16
--16
-16
 0
 0
+1
+-75
+75
+0
+150
+1
+1
 1
 ticks
 30.0
 
-SLIDER
-13
-17
-185
-50
-number
-number
-0
-5000
-1000.0
-1
-1
-NIL
-HORIZONTAL
-
 BUTTON
-14
-74
-79
-107
+57
+53
+130
+86
 NIL
 setup
 NIL
@@ -106,11 +75,41 @@ NIL
 NIL
 1
 
+SLIDER
+34
+142
+206
+175
+biome-sources
+biome-sources
+1
+100
+82.0
+1
+1
+NIL
+HORIZONTAL
+
+SLIDER
+34
+190
+206
+223
+water-sources
+water-sources
+0
+50
+25.0
+1
+1
+NIL
+HORIZONTAL
+
 BUTTON
-95
-73
-158
-106
+61
+97
+124
+130
 NIL
 go
 T
@@ -121,7 +120,37 @@ NIL
 NIL
 NIL
 NIL
+0
+
+SLIDER
+40
+235
+212
+268
+growth
+growth
+0
 1
+0.05
+0.05
+1
+NIL
+HORIZONTAL
+
+SLIDER
+34
+292
+206
+325
+number
+number
+0
+10000
+2166.0
+1
+1
+NIL
+HORIZONTAL
 
 @#$#@#$#@
 ## WHAT IS IT?

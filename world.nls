@@ -1,0 +1,181 @@
+globals [
+  growth-offset
+  spread-offset
+]
+
+patches-own [
+ ground-type
+ possible-types
+ moisture
+ vegetation
+ temperature
+ base-color
+ next-moisture
+]
+
+to update-patches
+  ask patches [
+    let moist max ([moisture] of neighbors4)
+
+    let max-moisture max([next-moisture] of neighbors4)
+    set next-moisture max-moisture * (item ground-type spread-offset)
+
+    set moisture min list max-moisture (max list moisture ((moist - moisture) * (item ground-type spread-offset)))
+
+    color-patch
+
+    let max-veg 1 * moisture * (item ground-type growth-offset)
+    set vegetation min list max-veg vegetation + growth * (item ground-type growth-offset) * moisture
+  ]
+
+end
+
+;; -1 None type
+;; 0 Water
+;; 1 Sand
+;; 2 Clay
+;; 3 Rock?
+to setup-world
+  ask patches [
+    set ground-type -1
+    set moisture 0.0
+    set vegetation 0.0
+    set temperature 0
+    set base-color black
+  ]
+  ask n-of biome-sources patches [
+    set ground-type (random 3 + 1)
+    color-patch-setup
+  ]
+
+  while [count patches with [ground-type = -1] > 0] [
+    ask patches with [ground-type = -1] [
+      let neighbor one-of neighbors with [ground-type != -1]
+      if neighbor != NOBODY [
+        set ground-type [ground-type] of neighbor
+      ]
+      color-patch-setup
+    ]
+  ]
+
+  ask n-of water-sources patches [
+    if ground-type = 1 [create-oasis 1]
+    if ground-type = 2 [create-oasis 2]
+    if ground-type = 3 [create-oasis 3]
+  ]
+end
+
+to color-patch-setup
+  if ground-type = 1 [set base-color yellow]
+  if ground-type = 2 [set base-color brown]
+  if ground-type = 3 [set base-color gray]
+
+  if ground-type != -1 [set pcolor base-color - 3.5]
+end
+
+to color-patch
+  if ground-type = 0 [
+    set base-color blue
+    set pcolor base-color
+
+;    ifelse count neighbors4 with [ground-type != 0] > 0 [
+;      set pcolor base-color + 1
+;    ] [
+;     set pcolor base-color
+;    ]
+  ]
+  ifelse vegetation > 0.1 [
+    set pcolor green - 3.5 + (vegetation) * 3.5
+  ] [
+    set pcolor base-color - 3.5 + 3.5 * moisture
+  ]
+
+end
+
+to create-oasis [val]
+  set ground-type 0
+  set moisture 1.0
+  set next-moisture 0.95
+
+  let queue []
+
+  foreach (list neighbors4 with [ground-type = val]) [ neighbor ->
+    set queue lput neighbor queue
+  ]
+
+  let spread 16
+
+  while [spread > 0] [
+    if length queue = 0 [
+      stop
+    ]
+    let idx random length queue
+
+    let place item idx queue
+
+    ask place [
+      foreach (list neighbors4 with [ground-type = val]) [ neighbor ->
+        set queue lput neighbor queue
+      ]
+
+      set ground-type 0
+      set moisture 1.0
+      color-patch
+    ]
+
+    set queue remove-item idx queue
+    set spread spread - 1
+  ]
+
+  color-patch
+end
+
+to create-swamp
+  set ground-type 0
+  set moisture 1.0
+
+  let queue []
+  let visited []
+
+
+  foreach (list neighbors with [ground-type = 2]) [ neighbor ->
+    set queue lput neighbor queue
+    set visited lput neighbor visited
+  ]
+
+  let spread 16
+
+  while [length queue != 0 and spread > 0] [
+    let idx random length queue
+    let place item idx queue
+
+    ask place [
+      foreach (list neighbors with [ground-type = 2]) [ neighbor ->
+        show neighbor
+        if not member? neighbor visited [
+          set queue lput neighbor queue
+          set visited lput neighbor visited
+        ]
+      ]
+    ]
+
+    ;; Set one out of every two to water
+    ;; Creates a larger body and thus a more swamp like env
+    if random 10 = 0 [
+      ask place [
+        set ground-type 0
+        set moisture 1.0
+        color-patch
+      ]
+      set spread spread - 1
+    ]
+
+    set queue remove-item idx queue
+  ] ;; End while
+
+  color-patch
+end
+
+to create-river
+
+end
