@@ -1,60 +1,66 @@
-turtles-own [
-  age             ;; Keeps track of age in years
-  thirst          ;; Keeps track of how moisturized a turtle is
-  hunger
-  sex             ;; Biological sex for eventual reproduction
+patches-own [
+  region
+  season
 ]
 
-to setup
+to regions
   clear-all
-  ask n-of number patches [
-    sprout 1
+  let colors [cyan orange green brown]
+  let x 25
+  let y 25
+  let col 0
+  while [y <= 50][
+    while [x <= 50][
+      ask patches with [pxcor < x and pxcor >= x - 25 and pycor < y and pycor >= y - 25][
+        set pcolor item col colors + 1
+        set region item col colors
+      ]
+      set x x + 25
+      set col col + 1
+    ]
+    set x 25
+    set y y + 25
   ]
   reset-ticks
-  ask turtles [
-    init-turtle
-  ]
 end
 
 to go
-  ask turtles [update-turtles]
+  ask patches [
+    change-season
+  ]
   tick
 end
 
-
-to init-turtle
-  ;; if initializing, create population with randomly distrubuted age
-  if ticks = 0 [
-    set age random 70
-  ]
-  ;; if not initializing, age is set to 0, because turtle is a baby
-  if ticks != 0 [
-    set age 0
-  ]
-  set thirst random 100
-  set hunger random 100
-  set sex random 1
-end
-
-to update-turtles
-  if age > 80 [
-    die
-  ]
-  ;; update age as follows, such that every tick represents a year
-  set age (age + 1)
-  ;; water more important than food
-  set hunger (hunger - 50)
-  set thirst (thirst - 100)
+to change-season
+  ; New season every 91 days
+  let current-season (ticks / 91) mod 4
+  (ifelse
+    current-season = 0 [
+      set pcolor region + 1
+      set season "spring"
+    ]
+    current-season = 1 [
+      set pcolor region
+      set season "summer"
+    ]
+    current-season = 2 [
+      set pcolor region - 9
+      set season "fall"
+    ]
+    current-season = 3 [
+      set pcolor region + 3
+      set season "winter"
+  ])
 end
 @#$#@#$#@
 GRAPHICS-WINDOW
-210
+198
 10
-647
-448
+690
+503
 -1
 -1
-13.0
+9.7
 1
 10
 1
@@ -64,38 +70,23 @@ GRAPHICS-WINDOW
 1
 1
 1
--16
-16
--16
-16
+0
+49
+0
+49
 0
 0
 1
 ticks
 30.0
 
-SLIDER
-13
-17
-185
-50
-number
-number
-0
-5000
-1000.0
-1
-1
-NIL
-HORIZONTAL
-
 BUTTON
-14
-74
-79
-107
-NIL
-setup
+9
+16
+117
+49
+Set up regions
+regions
 NIL
 1
 T
@@ -107,10 +98,10 @@ NIL
 1
 
 BUTTON
-95
-73
-158
-106
+125
+16
+188
+49
 NIL
 go
 T
