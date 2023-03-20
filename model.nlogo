@@ -10,11 +10,17 @@ to setup
   ask n-of number patches [
     sprout 1
   ]
+  reset-ticks
   ask turtles [
     init-turtle
   ]
-  reset-ticks
 end
+
+to go
+  ask turtles [update-turtles]
+  tick
+end
+
 
 to init-turtle
   ;; if initializing, create population with randomly distrubuted age
@@ -82,6 +88,40 @@ number
 1
 NIL
 HORIZONTAL
+
+BUTTON
+14
+74
+79
+107
+NIL
+setup
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+BUTTON
+95
+73
+158
+106
+NIL
+go
+T
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
 
 @#$#@#$#@
 ## WHAT IS IT?
