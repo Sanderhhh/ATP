@@ -28,8 +28,6 @@ to update-patches
 
     let max-veg 1 * moisture * (item ground-type growth-offset)
     set vegetation min list max-veg vegetation + growth * (item ground-type growth-offset) * moisture
-    
-    change-season
   ]
 
 end

@@ -27,7 +27,7 @@ end
 to go
   ask turtles [update-turtles]
   update-patches
-  ask patches [change-season]
+  change-season
   tick
 end
 @#$#@#$#@
@@ -151,6 +151,17 @@ number
 1
 NIL
 HORIZONTAL
+
+MONITOR
+868
+65
+925
+110
+NIL
+season
+17
+1
+11
 
 @#$#@#$#@
 ## WHAT IS IT?
