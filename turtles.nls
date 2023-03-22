@@ -1,0 +1,58 @@
+__includes["world.nls"]
+
+turtles-own [
+  age             ;; Keeps track of age in years
+  thirst          ;; Keeps track of how moisturized a turtle is
+  hunger
+  sex             ;; Biological sex for eventual reproduction
+  sight-range     ;; Radius within turtle checks for food
+]
+
+to init-turtle
+  ;; if initializing, create population with randomly distrubuted age
+  if ticks = 0 [
+    set age random 70
+  ]
+  ;; if not initializing, age is set to 0, because turtle is a baby
+  if ticks != 0 [
+    set age 0
+  ]
+  set sight-range 5
+  set thirst random 100
+  set hunger random 100
+  set sex random 1
+end
+
+to find-food
+  ;; turtle finds a patch with food in its sight range, then faces it
+  let food-patch one-of (patches in-radius sight-range)
+    with [vegetation > 0]
+  ;; only face it if food is found
+  if is-patch?["food-patch"] [ face food-patch ]
+end
+
+to wiggle
+  left random 90
+  right random 90
+end
+
+to find-new-spot
+  ;; find patch with food, then wiggle towards it
+  find-food
+  wiggle
+  forward 1
+end
+
+to update-turtles
+  if age > 80 [
+    die
+  ]
+  ;; update age as follows, such that every tick represents a year
+  if ticks mod 10 = 0 [
+    set age (age + 1)
+  ]
+  ;; water more important than food
+  set hunger (hunger - 50)
+  set thirst (thirst - 100)
+  find-new-spot
+end

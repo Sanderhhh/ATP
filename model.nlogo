@@ -1,92 +1,70 @@
-patches-own [
-  region
-  season
+__includes["turtles.nls"]
+
+breed [humans human]
+
+humans-own [
+ temp-pref
+ humid-pref
+ energy
+ agression
 ]
 
-to regions
+to setup
   clear-all
-  let colors [cyan orange green brown]
-  let x 25
-  let y 25
-  let col 0
-  while [y <= 50][
-    while [x <= 50][
-      ask patches with [pxcor < x and pxcor >= x - 25 and pycor < y and pycor >= y - 25][
-        set pcolor item col colors + 1
-        set region item col colors
-      ]
-      set x x + 25
-      set col col + 1
-    ]
-    set x 25
-    set y y + 25
+  set growth-offset [0 0.9 1 0.6]
+  set spread-offset [1 0.5 0.9 0.8]
+  setup-world
+
+  ask n-of number patches [
+    sprout 1
   ]
   reset-ticks
+  ask turtles [
+    init-turtle
+  ]
 end
 
 to go
-  ask patches [
-    change-season
-  ]
+  ask turtles [update-turtles]
+  update-patches
+  ask patches [change-season]
   tick
-end
-
-to change-season
-  ; New season every 91 days
-  let current-season (ticks / 91) mod 4
-  (ifelse
-    current-season = 0 [
-      set pcolor region + 1
-      set season "spring"
-    ]
-    current-season = 1 [
-      set pcolor region
-      set season "summer"
-    ]
-    current-season = 2 [
-      set pcolor region - 9
-      set season "fall"
-    ]
-    current-season = 3 [
-      set pcolor region + 3
-      set season "winter"
-  ])
 end
 @#$#@#$#@
 GRAPHICS-WINDOW
-198
+210
 10
-690
-503
+822
+623
 -1
 -1
-9.7
+4.0
 1
 10
 1
 1
 1
 0
+0
+0
+1
+-75
+75
+0
+150
 1
 1
-1
-0
-49
-0
-49
-0
-0
 1
 ticks
 30.0
 
 BUTTON
-9
-16
-117
-49
-Set up regions
-regions
+57
+53
+130
+86
+NIL
+setup
 NIL
 1
 T
@@ -97,11 +75,41 @@ NIL
 NIL
 1
 
+SLIDER
+34
+142
+206
+175
+biome-sources
+biome-sources
+1
+100
+82.0
+1
+1
+NIL
+HORIZONTAL
+
+SLIDER
+34
+190
+206
+223
+water-sources
+water-sources
+0
+50
+25.0
+1
+1
+NIL
+HORIZONTAL
+
 BUTTON
-125
-16
-188
-49
+61
+97
+124
+130
 NIL
 go
 T
@@ -112,7 +120,37 @@ NIL
 NIL
 NIL
 NIL
+0
+
+SLIDER
+40
+235
+212
+268
+growth
+growth
+0
 1
+0.05
+0.05
+1
+NIL
+HORIZONTAL
+
+SLIDER
+34
+292
+206
+325
+number
+number
+0
+10000
+2166.0
+1
+1
+NIL
+HORIZONTAL
 
 @#$#@#$#@
 ## WHAT IS IT?
