@@ -1,35 +1,4 @@
-__includes["turtles.nls"]
-
-breed [humans human]
-
-humans-own [
- temp-pref
- humid-pref
- energy
- agression
-]
-
-to setup
-  clear-all
-  set growth-offset [0 0.9 1 0.6]
-  set spread-offset [1 0.5 0.9 0.8]
-  setup-world
-
-  ask n-of number patches [
-    sprout 1
-  ]
-  reset-ticks
-  ask turtles [
-    init-turtle
-  ]
-end
-
-to go
-  ask turtles [update-turtles]
-  update-patches
-  tick
-end
-
+__includes["main.nls"]
 @#$#@#$#@
 GRAPHICS-WINDOW
 210
@@ -84,7 +53,7 @@ biome-sources
 biome-sources
 1
 100
-82.0
+25.0
 1
 1
 NIL
@@ -99,7 +68,7 @@ water-sources
 water-sources
 0
 50
-25.0
+18.0
 1
 1
 NIL
@@ -131,7 +100,7 @@ growth
 growth
 0
 1
-0.05
+0.1
 0.05
 1
 NIL
@@ -145,8 +114,8 @@ SLIDER
 number
 number
 0
-10000
-2166.0
+2000
+200.0
 1
 1
 NIL
