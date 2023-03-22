@@ -1,0 +1,24 @@
+__includes ["world.nls"]
+
+patches-own [
+  season
+]
+
+
+to change-season
+  ; New season every 91 days
+  let current-season (ticks / 12) mod 4
+  (ifelse
+    current-season = 0 [
+      set season "spring"
+    ]
+    current-season = 1 [
+      set season "summer"
+    ]
+    current-season = 2 [
+      set season "fall"
+    ]
+    current-season = 3 [
+      set season "winter"
+  ])
+end
