@@ -26,9 +26,12 @@ end
 to find-food
   ;; turtle finds a patch with food in its sight range, then faces it
   let food-patch one-of (patches in-radius sight-range)
-    with [vegetation > 0]
+    with [vegetation > 0.1]
   ;; only face it if food is found
-  if is-patch?["food-patch"] [ face food-patch ]
+  if is-patch?["food-patch"] [ 
+    face food-patch 
+  ]
+  ;; if not is-patch?[
 end
 
 to wiggle
