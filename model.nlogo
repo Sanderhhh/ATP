@@ -1,44 +1,13 @@
-__includes["turtles.nls"]
-
-breed [humans human]
-
-humans-own [
- temp-pref
- humid-pref
- energy
- agression
-]
-
-to setup
-  clear-all
-  set growth-offset [0 0.9 1 0.6]
-  set spread-offset [1 0.5 0.9 0.8]
-  setup-world
-
-  ask n-of number patches [
-    sprout 1
-  ]
-  reset-ticks
-  ask turtles [
-    init-turtle
-  ]
-end
-
-to go
-  ask turtles [update-turtles]
-  update-patches
-  change-season
-  tick
-end
+__includes["main.nls"]
 @#$#@#$#@
 GRAPHICS-WINDOW
-210
+211
 10
-822
-623
+890
+690
 -1
 -1
-4.0
+4.444
 1
 10
 1
@@ -123,15 +92,15 @@ NIL
 0
 
 SLIDER
-40
+37
 235
-212
+209
 268
 growth
 growth
 0
 1
-0.05
+0.3
 0.05
 1
 NIL
@@ -146,17 +115,17 @@ number
 number
 0
 10000
-2166.0
+2000.0
 1
 1
 NIL
 HORIZONTAL
 
 MONITOR
-868
-65
-925
-110
+982
+66
+1039
+111
 NIL
 season
 17

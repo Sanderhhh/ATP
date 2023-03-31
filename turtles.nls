@@ -1,4 +1,4 @@
-__includes["world.nls"]
+__includes["season.nls"]
 
 turtles-own [
   age             ;; Keeps track of age in years
@@ -6,7 +6,9 @@ turtles-own [
   hunger
   sex             ;; Biological sex for eventual reproduction
   sight-range     ;; Radius within turtle checks for food
+  likes
 ]
+
 
 to init-turtle
   ;; if initializing, create population with randomly distrubuted age
@@ -17,18 +19,24 @@ to init-turtle
   if ticks != 0 [
     set age 0
   ]
-  set sight-range 5
-  set thirst random 100
-  set hunger random 100
+  set likes one-of [red blue yellow green]
+  set color likes
+  set sight-range 10
+  set thirst 0
+  set hunger 0
   set sex random 1
 end
 
 to find-food
   ;; turtle finds a patch with food in its sight range, then faces it
   let food-patch one-of (patches in-radius sight-range)
-    with [vegetation > 0]
+    with [vegetation > 0.1]
   ;; only face it if food is found
-  if is-patch?["food-patch"] [ face food-patch ]
+  if-else is-patch? food-patch
+    [face food-patch]
+    [similar] 
+  
+  
 end
 
 to wiggle
@@ -36,23 +44,82 @@ to wiggle
   right random 90
 end
 
+to similar
+  let averageX xcor
+  let averageY ycor
+  
+  let thisColor likes
+  
+  let turtleSet turtles in-radius 20 with [likes = thisColor]
+  
+  let turtleCount count turtleSet
+  
+  if turtleCount > 0
+  [
+    ask turtleSet[
+      set averageX averageX + xcor
+      set averageY averageY + ycor
+    ]
+  ]
+  
+  set averageX averageX / turtleCount
+  set averageY averageY / turtleCount
+  
+  facexy averageX averageY
+;  set heading (patch-at averageX averageY)
+  
+  ; head slightly similar to turtle with similar like
+end
+
 to find-new-spot
   ;; find patch with food, then wiggle towards it
+  
   find-food
   wiggle
+  
   forward 1
 end
 
 to update-turtles
-  if age > 80 [
-    die
-  ]
+  check-if-im-dead
   ;; update age as follows, such that every tick represents a year
-  if ticks mod 10 = 0 [
+  if ticks mod 120 = 0 [
     set age (age + 1)
   ]
   ;; water more important than food
-  set hunger (hunger - 50)
-  set thirst (thirst - 100)
+  set hunger (hunger + 0.025)
+  set thirst (thirst + 0.03)
+  
+  eat-and-drink
+  
   find-new-spot
+end
+
+to eat-and-drink
+  if vegetation > 0.1 [
+    set vegetation vegetation - 0.1
+    set hunger hunger - 0.2
+    if hunger < 0 [set hunger 0]
+  ]
+end
+
+to procreate
+  ;; if neither turtle is hungry, they totally bang epic-style
+  let mate one-of (turtles in-radius sight-range)
+  with [hunger < 0.1]
+  
+  if hunger < 0.1 [
+    set hunger (hunger + 0.5)
+    ask mate [
+      set hunger (hunger + 0.5)
+    ]
+    ;; sprout baby instantly, pregnancy has not been implemented yet
+    ask one-of patches in-radius 1 [
+      sprout 1
+    ]
+  ]
+end
+
+to check-if-im-dead
+  if age > 80 or hunger > 0.9 [ die ]
 end
