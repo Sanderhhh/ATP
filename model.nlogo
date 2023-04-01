@@ -1,9 +1,9 @@
 __includes["main.nls"]
 @#$#@#$#@
 GRAPHICS-WINDOW
-211
+228
 10
-890
+907
 690
 -1
 -1
@@ -17,8 +17,8 @@ GRAPHICS-WINDOW
 0
 0
 1
--75
-75
+0
+150
 0
 150
 1
@@ -100,7 +100,7 @@ growth
 growth
 0
 1
-0.3
+0.2
 0.05
 1
 NIL
@@ -122,10 +122,10 @@ NIL
 HORIZONTAL
 
 MONITOR
-982
-66
-1039
-111
+59
+355
+116
+400
 NIL
 season
 17

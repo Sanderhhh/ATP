@@ -13,8 +13,9 @@ to setup
   clear-all
   set growth-offset [0 0.9 1 0.6]
   set spread-offset [1 0.5 0.9 0.8]
+  apply-region
   setup-world
-
+  
   ask n-of number patches [
     sprout 1
   ]

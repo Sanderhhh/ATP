@@ -11,7 +11,29 @@ patches-own [
  temperature
  base-color
  next-moisture
+ region
+ internal-growth
 ]
+
+to apply-region
+  let characteristics ["warm" "cold" "wet" "dry"]
+  let growth-values [1.0 0.3 0.7 0.2]
+  let x 75
+  let y 75
+  let col 0
+  while [y <= 150][
+    while [x <= 150][
+      ask patches with [pxcor < x and pxcor >= x - 75 and pycor < y and pycor >= y - 75][
+        set region item col characteristics
+        set internal-growth item col growth-values
+      ]
+      set x x + 75
+      set col col + 1
+    ]
+    set x 75
+    set y y + 75
+  ]
+end
 
 to update-patches
   ask patches [
@@ -25,7 +47,7 @@ to update-patches
     color-patch
 
     let max-veg 1 * moisture * (item ground-type growth-offset)
-    set vegetation min list max-veg vegetation + growth * (item ground-type growth-offset) * moisture
+    set vegetation min list max-veg vegetation + internal-growth * growth * (item ground-type growth-offset) * moisture
   ]
   change-season
 end
@@ -66,7 +88,7 @@ to setup-world
 end
 
 to color-patch-setup
-  if ground-type = 1 [set base-color yellow]
+  if ground-type = 1 [set base-color orange]
   if ground-type = 2 [set base-color brown]
   if ground-type = 3 [set base-color gray]
 
@@ -89,7 +111,33 @@ to color-patch
   ] [
     set pcolor base-color - 3.5 + 3.5 * moisture
   ]
+  
+  regional-change
+  
+end
 
+to regional-change
+  (ifelse
+    region = "warm" [
+      if (pcolor < 59 and pcolor > 50) [set pcolor pcolor - 10]
+      ; change vegitation, moisture
+      ; best time to plant towards the end of spring to give the moisture and vegitation damage from winter time to reduce
+    ]
+    region = "cold" [
+      if (pcolor < 59 and pcolor > 50) [set pcolor pcolor + 20]
+      ; change vegitation, moisture
+      ; best place to grow for most plants as the sun is out a lot
+    ]
+    region = "dry" [
+      if (pcolor < 59 and pcolor > 50) [set pcolor pcolor + 4] 
+      ; change vegitation, moisture
+    ]
+    region = "warm" [
+      if (pcolor < 59 and pcolor > 50) [set pcolor pcolor - 2]
+      ; change vegitation, moisture
+      ; moisture should probably be zero during this time period as it freezes
+      ; same with vegetation, frozen moisture tends to rip apart plants
+  ])
 end
 
 to create-oasis [val]
