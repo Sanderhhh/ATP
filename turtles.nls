@@ -21,7 +21,7 @@ to init-turtle
   ]
   set likes one-of [red blue yellow green]
   set color likes
-  set sight-range 10
+  set sight-range 5
   set thirst 0
   set hunger 0
   set sex random 1

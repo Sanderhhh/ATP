@@ -1,4 +1,4 @@
-__includes["turtles.nls" "season.nls"]
+__includes["turtles.nls"]
 
 breed [humans human]
 
