@@ -5,8 +5,12 @@ turtles-own [
   thirst          ;; Keeps track of how moisturized a turtle is
   hunger
   sex             ;; Biological sex for eventual reproduction
-  sight-range     ;; Radius within turtle checks for food
+  search-range     ;; Radius within turtle checks for food
+  sight-range
   likes
+  individualism
+  pref-security
+  migrate
 ]
 
 
@@ -21,7 +25,14 @@ to init-turtle
   ]
   set likes one-of [red blue yellow green]
   set color likes
-  set sight-range 5
+  if likes = red [set individualism 18]
+  if likes = blue [set individualism 10]
+  if likes = yellow [set individualism 5]
+  if likes = green [set individualism 13]
+  
+  set pref-security 20
+  set sight-range 50
+  set search-range 5
   set thirst 0
   set hunger 0
   set sex random 1
@@ -29,25 +40,43 @@ end
 
 to find-food
   ;; turtle finds a patch with food in its sight range, then faces it
-  let food-patch one-of (patches in-radius sight-range)
-    with [vegetation > 0.1]
+  let food-options (patches in-radius search-range with [vegetation > 0.1])
+  ;;let food-patch one-of food-options
+    
   ;; only face it if food is found
-  if-else is-patch? food-patch
-    [face food-patch]
-    [similar] 
+  let food-count count food-options
+  
+  ifelse food-count < pref-security [
+    let food-patch one-of (patches in-radius sight-range with [vegetation > 0.1])
+    if is-patch? food-patch
+    [
+      set migrate food-patch
+      face food-patch
+    ]
+  ][
+    if (not similar or hunger > 0.5)
+    [face one-of food-options]
+  ]
+  
+  ;;if-else is-patch? food-patch ;;and hunger > 0.01
+
   
   ;; Could make it face towards similar if it is not too hungry
   
 end
 
 to wiggle
-  left random 90
-  right random 90
+  left random 90 ;;90
+  right random 90 ;;90
 end
 
-to similar
-  let averageX xcor
-  let averageY ycor
+to-report similar
+  
+  ;; Maybe move to epicenter if too far away from it based on
+  ;; individualism
+  
+  let averageX 0
+  let averageY 0
   
   let thisColor likes
   
@@ -65,12 +94,20 @@ to similar
       set averageX averageX + xcor
       set averageY averageY + ycor
     ]
+  
+  
+    set averageX averageX / turtleCount
+    set averageY averageY / turtleCount
+    
+    let corx int averageX
+    let cory int averageY
+  
+    if distance (patch corx cory) > individualism [
+      facexy averageX averageY
+      report True
+    ]
   ]
-  
-  set averageX averageX / turtleCount
-  set averageY averageY / turtleCount
-  
-  facexy averageX averageY
+  report False
 ;  set heading (patch-at averageX averageY)
   
   ; head slightly similar to turtle with similar like
@@ -79,8 +116,9 @@ end
 to find-new-spot
   ;; find patch with food, then wiggle towards it
   
-  find-food
   wiggle
+  find-food
+  ;;procreate
   
   forward 1
 end
@@ -120,11 +158,11 @@ to procreate
     ]
     ;; sprout baby instantly, pregnancy has not been implemented yet
     ask one-of patches in-radius 1 [
-      sprout 1
+      sprout 1 [init-turtle]
     ]
   ]
 end
 
 to check-if-im-dead
-  if age > 80 or hunger > 0.9 [ die ]
+  if age > 80 or hunger > 1.5 [ die ]
 end
