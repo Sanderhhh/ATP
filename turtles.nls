@@ -36,6 +36,7 @@ to find-food
     [face food-patch]
     [similar] 
   
+  ;; Could make it face towards similar if it is not too hungry
   
 end
 
@@ -49,6 +50,10 @@ to similar
   let averageY ycor
   
   let thisColor likes
+  
+  ;; Could increase this radius based on individualism
+  ;; Could track this, and always move to the group if there are
+  ;; no group agents nearby anymore
   
   let turtleSet turtles in-radius 20 with [likes = thisColor]
   
