@@ -100,7 +100,7 @@ growth
 growth
 0
 1
-0.15
+0.05
 0.05
 1
 NIL
