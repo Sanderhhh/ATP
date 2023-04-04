@@ -30,15 +30,16 @@ to init-turtle
   if likes = yellow [set individualism 5]
   if likes = green [set individualism 13]
   
-  set pref-security 20
-  set sight-range 50
+  set migrate NOBODY
+  set pref-security 15
+  set sight-range 30
   set search-range 5
   set thirst 0
   set hunger 0
   set sex random 1
 end
 
-to find-food
+to find-food 
   ;; turtle finds a patch with food in its sight range, then faces it
   let food-options (patches in-radius search-range with [vegetation > 0.1])
   ;;let food-patch one-of food-options
@@ -50,7 +51,7 @@ to find-food
     let food-patch one-of (patches in-radius sight-range with [vegetation > 0.1])
     if is-patch? food-patch
     [
-      set migrate food-patch
+      ;;set migrate food-patch
       face food-patch
     ]
   ][
@@ -84,7 +85,7 @@ to-report similar
   ;; Could track this, and always move to the group if there are
   ;; no group agents nearby anymore
   
-  let turtleSet turtles in-radius 20 with [likes = thisColor]
+  let turtleSet turtles in-radius 20 ;;with [likes = thisColor]
   
   let turtleCount count turtleSet
   
@@ -116,8 +117,15 @@ end
 to find-new-spot
   ;; find patch with food, then wiggle towards it
   
+  
+  
   wiggle
-  find-food
+  ifelse migrate != NOBODY [
+    face migrate
+    if distance migrate < search-range - 1
+    [set migrate NOBODY]
+  ]
+  [find-food]
   ;;procreate
   
   forward 1
@@ -164,5 +172,5 @@ to procreate
 end
 
 to check-if-im-dead
-  if age > 80 or hunger > 1.5 [ die ]
+  if age > 80 or hunger > 2.5 [ die ]
 end
