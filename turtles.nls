@@ -23,16 +23,16 @@ to init-turtle
   if ticks != 0 [
     set age 0
   ]
-  set likes one-of [red blue yellow green]
+  set likes one-of [red yellow green]
   set color likes
-  if likes = red [set individualism 18]
-  if likes = blue [set individualism 10]
-  if likes = yellow [set individualism 5]
-  if likes = green [set individualism 13]
+  if likes = red [set individualism 18] ; warm climate, meaning dry
+  if likes = white [set individualism 10] ; cold climate, meaning wet
+  if likes = yellow [set individualism 5] ; normal climate, between warm and cold
+  if likes = green [set individualism 13] ; no preference
   
   set migrate NOBODY
   set pref-security 15
-  set sight-range 30
+  set sight-range 100
   set search-range 5
   set thirst 0
   set hunger 0
@@ -43,20 +43,66 @@ to find-food
   ;; turtle finds a patch with food in its sight range, then faces it
   let food-options (patches in-radius search-range with [vegetation > 0.1])
   ;;let food-patch one-of food-options
-    
+  
+  ;; change it such that we only look at food options according to preference
+  ;; red wants the driest vegetation
+  ;; blue wants the wettest vegetation
+  ;; yellow chooses the vegetation in between
+  ;; green just goes to the nearest one, aka no change
+  
   ;; only face it if food is found
   let food-count count food-options
   
   ifelse food-count < pref-security [
-    let food-patch one-of (patches in-radius sight-range with [vegetation > 0.1])
+    ;; red wants the driest vegetation
+    let food-patch one-of food-options
+    
+    (ifelse
+      likes = red [
+        let current-option one-of food-options with [region = "dry"]
+        if current-option != NOBODY [set food-patch current-option]
+      ]
+      likes = yellow [
+        let current-option one-of food-options with [region = "cold"]
+        if current-option != NOBODY [set food-patch current-option]
+      ]
+      likes = green [
+        let current-option one-of food-options with [region = "warm"]
+        if current-option != NOBODY [set food-patch current-option]
+      ]
+      [set food-patch one-of food-options]
+    )
+    
+    ;if likes = yellow [set food-patch one-of food-options [moisture]]
+    ;if likes = green [set food-patch one-of food-options [moisture]]
+    ;; blue wants the wettest vegetation
+    ;; yellow chooses the vegetation in between
+    ;; green just goes to the nearest one, aka no change
+    ;let food-patch one-of (patches in-radius sight-range with [vegetation > 0.1])
     if is-patch? food-patch
     [
-      ;;set migrate food-patch
+      set migrate food-patch
       face food-patch
     ]
   ][
     if (not similar or hunger > 0.5)
-    [face one-of food-options]
+    [
+      (ifelse 
+        likes = red [
+          let current-option one-of food-options with [region = "dry"]
+          if current-option != NOBODY [face current-option]
+        ]
+        likes = yellow [
+          let current-option one-of food-options with [region = "cold"]
+          if current-option != NOBODY [face current-option]
+        ]
+        likes = green [
+          let current-option one-of food-options with [region = "warm"]
+          if current-option != NOBODY [face current-option]
+        ]
+        [face one-of food-options]
+      )
+    ]
   ]
   
   ;;if-else is-patch? food-patch ;;and hunger > 0.01
