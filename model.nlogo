@@ -68,7 +68,7 @@ water-sources
 water-sources
 0
 50
-18.0
+25.0
 1
 1
 NIL
@@ -100,7 +100,7 @@ growth
 growth
 0
 1
-0.15
+0.05
 0.05
 1
 NIL
@@ -115,7 +115,7 @@ number
 number
 0
 10000
-510.0
+573.0
 1
 1
 NIL

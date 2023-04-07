@@ -27,7 +27,7 @@ to init-turtle
   set color likes
   if likes = red [set individualism 18]
   if likes = blue [set individualism 10]
-  if likes = yellow [set individualism 5]
+  if likes = yellow [set individualism 8]
   if likes = green [set individualism 13]
   
   set migrate NOBODY
@@ -114,19 +114,18 @@ to-report similar
   ; head slightly similar to turtle with similar like
 end
 
+
+
 to find-new-spot
   ;; find patch with food, then wiggle towards it
   
   
   
   wiggle
-  ifelse migrate != NOBODY [
-    face migrate
-    if distance migrate < search-range - 1
-    [set migrate NOBODY]
-  ]
-  [find-food]
-  ;;procreate
+  
+  find-food
+  if season-changed = 1 and season-idx = 1
+  [procreate]
   
   forward 1
 end
@@ -159,7 +158,7 @@ to procreate
   let mate one-of (turtles in-radius sight-range)
   with [hunger < 0.1]
   
-  if hunger < 0.1 [
+  if hunger < 0.1 and random 100 > 50 [
     set hunger (hunger + 0.5)
     ask mate [
       set hunger (hunger + 0.5)
@@ -167,6 +166,7 @@ to procreate
     ;; sprout baby instantly, pregnancy has not been implemented yet
     ask one-of patches in-radius 1 [
       sprout 1 [init-turtle]
+
     ]
   ]
 end

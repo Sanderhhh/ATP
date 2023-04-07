@@ -2,33 +2,43 @@ __includes ["world.nls"]
 
 globals [
   season
+  season-idx
+  season-changed
 ]
 
 
 to change-season
   ; New season every 91 days, can be adjusted to months
   let current-season (ticks / 91) mod 4
+  
+  ifelse current-season = season-idx
+  [set season-changed 0]
+  [
+    set season-changed 1
+    set season-idx current-season
+  ]
+    
   (ifelse
     current-season = 0 [
       set season "spring"
-      set growth 0.1
+      set growth 0.05
       ; change vegitation, moisture
       ; best time to plant towards the end of spring to give the moisture and vegitation damage from winter time to reduce
     ]
     current-season = 1 [
       set season "summer"
-      set growth 0.15
+      set growth 0.075
       ; change vegitation, moisture
       ; best place to grow for most plants as the sun is out a lot
     ]
     current-season = 2 [
       set season "fall"
-      set growth 0.05
+      set growth 0.025
       ; change vegitation, moisture
     ]
     current-season = 3 [
       set season "winter"
-      set growth 0.004
+      set growth 0.002
       ; change vegitation, moisture
       ; moisture should probably be zero during this time period as it freezes
       ; same with vegetation, frozen moisture tends to rip apart plants

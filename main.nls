@@ -16,7 +16,7 @@ to setup
   apply-region
   setup-world
   
-  ask n-of number patches [
+  ask n-of number patches with [pxcor < 50 and pycor < 50] [
     sprout 1
   ]
   reset-ticks
