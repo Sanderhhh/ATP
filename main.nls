@@ -11,7 +11,8 @@ globals [
 to experiment
   clear-all
   set all-data []
-  set all-data lput (list "yellow" "green" "red" "season") all-data
+  set all-data lput (list "yellow" "green" "red" "white" "season") all-data
+  ;set all-data lput (list "warm" "cold" "dry" "wet" "color") all-data
   ;show all-data
   let runs 15
   while [runs > 0] [
@@ -64,9 +65,41 @@ to log-distance
     set last-y ycor
   ]
   let mean-yellow mean [dist-season] of turtles with [color = yellow]
-  let mean-red mean [dist-season] of turtles with [color = red]
   let mean-green mean [dist-season] of turtles with [color = green]
-  let lst (list mean-yellow mean-red mean-green last-season)
+  let mean-red mean [dist-season] of turtles with [color = red]
+  let mean-white mean [dist-season] of turtles with [color = white]
+  let lst (list mean-yellow mean-green mean-red mean-white last-season)
   show all-data
+  set all-data lput lst all-data
+end
+
+to log-region
+  let yellow-mean-warm count turtles with [color = yellow and current-region = "warm"]
+  let yellow-mean-cold count turtles with [color = yellow and current-region = "cold"]; count[current-region with "cold" ] of turtles with [color = yellow]
+  let yellow-mean-dry count turtles with [color = yellow and current-region = "dry"]; count[current-region with "dry" ] of turtles with [color = yellow]
+  let yellow-mean-wet count turtles with [color = yellow and current-region = "wet"]; count[current-region with "wet" ] of turtles with [color = yellow]
+  let lst (list yellow-mean-warm yellow-mean-cold yellow-mean-dry yellow-mean-wet "yellow")
+  set all-data lput lst all-data
+  
+  let green-mean-warm count turtles with [color = green and current-region = "warm"]; [current-region = "warm" ] of turtles with [color = green]
+  let green-mean-cold count turtles with [color = green and current-region = "cold"];[current-region = "cold" ] of turtles with [color = green]
+  let green-mean-dry count turtles with [color = green and current-region = "dry"]; [current-region = "dry" ] of turtles with [color = green]
+  let green-mean-wet count turtles with [color = green and current-region = "wet"]; [current-region = "wet" ] of turtles with [color = green]
+  set lst (list green-mean-warm green-mean-cold green-mean-dry green-mean-wet "green")
+  set all-data lput lst all-data
+  
+  let red-mean-warm count turtles with [color = red and current-region = "warm"];[current-region = "warm" ] of turtles with [color = red]
+  let red-mean-cold count turtles with [color = red and current-region = "cold"];[ current-region = "cold" ] of turtles with [color = red]
+  let red-mean-dry count turtles with [color = red and current-region = "dry"];[current-region = "dry" ] of turtles with [color = red]
+  let red-mean-wet count turtles with [color = red and current-region = "wet"];[ current-region = "wet" ] of turtles with [color = red]
+  set lst (list red-mean-warm red-mean-cold red-mean-dry red-mean-wet "red")
+  set all-data lput lst all-data
+  
+  let white-mean-warm count turtles with [color = white and current-region = "warm"];[current-region = "warm" ] of turtles with [color = white]
+  let white-mean-cold count turtles with [color = white and current-region = "cold"];[ current-region = "cold" ] of turtles with [color = white]
+  let white-mean-dry count turtles with [color = white and current-region = "dry"];[current-region = "dry" ] of turtles with [color = white]
+  let white-mean-wet count turtles with [color = white and current-region = "wet"];[ current-region = "wet" ] of turtles with [color = white]
+  set lst (list white-mean-warm white-mean-cold white-mean-dry white-mean-wet "white")
+  
   set all-data lput lst all-data
 end

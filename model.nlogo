@@ -149,7 +149,7 @@ false
 "" ""
 PENS
 "default" 1.0 0 -1184463 true "" "plot mean [dist-season] of turtles with [color = yellow]"
-"pen-1" 1.0 0 -13345367 true "" "plot mean [dist-season] of turtles with [color = white]"
+"pen-1" 1.0 0 -7500403 true "" "plot mean [dist-season] of turtles with [color = white]"
 "pen-2" 1.0 0 -2674135 true "" "plot mean [dist-season] of turtles with [color = red]"
 "pen-3" 1.0 0 -14439633 true "" "plot mean [dist-season] of turtles with [color = green]"
 
