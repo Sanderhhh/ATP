@@ -2,6 +2,7 @@ __includes ["world.nls"]
 
 globals [
   season
+  last-season
 ]
 
 

@@ -1,16 +1,37 @@
 __includes["turtles.nls"]
 
-breed [humans human]
-
-humans-own [
- temp-pref
- humid-pref
- energy
- agression
+extensions [
+  csv 
 ]
 
+globals [
+ all-data
+]
+
+to experiment
+  set all-data []
+  set all-data lput (list "yellow" "green" "red" "season") all-data
+  ;show all-data
+  let runs 15
+  while [runs > 0] [
+    setup
+    while [ticks < 1081]
+    [go]
+    
+    set runs runs - 1
+  ]
+  
+  csv:to-file user-new-file all-data
+  
+end
+
+
 to setup
-  clear-all
+  ;clear-all
+  clear-ticks
+  clear-turtles
+  clear-patches
+  set last-season "spring"
   set growth-offset [0 0.9 1 0.6]
   set spread-offset [1 0.5 0.9 0.8]
   apply-region
@@ -28,5 +49,23 @@ end
 to go
   ask turtles [update-turtles]
   update-patches
+  if last-season != season [
+   log-distance
+   set last-season season
+  ]
   tick
+end
+
+to log-distance
+  ask turtles [
+    set dist-season distance patch last-x last-y
+    set last-x xcor
+    set last-y ycor
+  ]
+  let mean-yellow mean [dist-season] of turtles with [color = yellow]
+  let mean-red mean [dist-season] of turtles with [color = red]
+  let mean-green mean [dist-season] of turtles with [color = green]
+  let lst (list mean-yellow mean-red mean-green last-season)
+  show all-data
+  set all-data lput lst all-data
 end

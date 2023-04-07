@@ -13,6 +13,9 @@ turtles-own [
   migrate
   current-region
   region-list
+  last-x
+  last-y
+  dist-season
 ]
 
 
@@ -27,10 +30,12 @@ to init-turtle
   ]
   set likes one-of [red yellow green]
   set color likes
-  if likes = red [set individualism 18] ; warm climate, meaning dry
-  if likes = white [set individualism 10] ; cold climate, meaning wet
+  if likes = red [set individualism 18]   ; warm climate, meaning dry
+  ;if likes = blue [set individualism 10] ; cold climate, meaning wet
   if likes = yellow [set individualism 5] ; normal climate, between warm and cold
   if likes = green [set individualism 13] ; no preference
+  
+  ; set individualism 5 + random 13
   
   set migrate NOBODY
   set pref-security 15
@@ -40,6 +45,8 @@ to init-turtle
   set hunger 0
   set sex random 1
   set region-list [region] of patch-here
+  set last-x xcor
+  set last-y ycor
 end
 
 to find-food 
@@ -115,8 +122,8 @@ to find-food
 end
 
 to wiggle
-  left random 90 ;;90
-  right random 90 ;;90
+  left random 90
+  right random 90
 end
 
 
@@ -169,6 +176,7 @@ to find-new-spot
   
   
   wiggle
+  
   ifelse migrate != NOBODY [
     face migrate
     if distance migrate < search-range - 1
