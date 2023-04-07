@@ -9,6 +9,7 @@ globals [
 ]
 
 to experiment
+  clear-all
   set all-data []
   set all-data lput (list "yellow" "green" "red" "season") all-data
   ;show all-data

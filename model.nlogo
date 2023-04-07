@@ -100,7 +100,7 @@ growth
 growth
 0
 1
-0.05
+0.15
 0.05
 1
 NIL
@@ -115,7 +115,7 @@ number
 number
 0
 10000
-382.0
+500.0
 1
 1
 NIL
@@ -152,6 +152,23 @@ PENS
 "pen-1" 1.0 0 -13345367 true "" "plot mean [dist-season] of turtles with [color = white]"
 "pen-2" 1.0 0 -2674135 true "" "plot mean [dist-season] of turtles with [color = red]"
 "pen-3" 1.0 0 -14439633 true "" "plot mean [dist-season] of turtles with [color = green]"
+
+BUTTON
+1095
+45
+1207
+78
+NIL
+experiment
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
 
 @#$#@#$#@
 ## WHAT IS IT?
@@ -513,6 +530,27 @@ NetLogo 6.3.0
     </enumeratedValueSet>
     <enumeratedValueSet variable="growth">
       <value value="0.01"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="biome-sources">
+      <value value="78"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="exp-dist" repetitions="25" runMetricsEveryStep="true">
+    <setup>setup</setup>
+    <go>go</go>
+    <exitCondition>ticks = 960</exitCondition>
+    <metric>mean [dist-season] of turtles with [color = yellow]</metric>
+    <metric>mean [dist-season] of turtles with [color = red]</metric>
+    <metric>mean [dist-season] of turtles with [color = green]</metric>
+    <metric>last-season</metric>
+    <enumeratedValueSet variable="water-sources">
+      <value value="20"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="number">
+      <value value="500"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="growth">
+      <value value="0.05"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="biome-sources">
       <value value="78"/>
