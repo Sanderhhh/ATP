@@ -11,6 +11,8 @@ turtles-own [
   individualism
   pref-security
   migrate
+  current-region
+  region-list
 ]
 
 
@@ -32,11 +34,12 @@ to init-turtle
   
   set migrate NOBODY
   set pref-security 15
-  set sight-range 100
+  set sight-range 30
   set search-range 5
   set thirst 0
   set hunger 0
   set sex random 1
+  set region-list [region] of patch-here
 end
 
 to find-food 
@@ -85,8 +88,7 @@ to find-food
       face food-patch
     ]
   ][
-    if (not similar or hunger > 0.5)
-    [
+    if (not similar or hunger > 0.5)[
       (ifelse 
         likes = red [
           let current-option one-of food-options with [region = "dry"]
@@ -117,6 +119,7 @@ to wiggle
   right random 90 ;;90
 end
 
+
 to-report similar
   
   ;; Maybe move to epicenter if too far away from it based on
@@ -131,7 +134,7 @@ to-report similar
   ;; Could track this, and always move to the group if there are
   ;; no group agents nearby anymore
   
-  let turtleSet turtles in-radius 20 ;;with [likes = thisColor]
+  let turtleSet turtles in-radius 20 with [likes = thisColor]
   
   let turtleCount count turtleSet
   
@@ -178,6 +181,8 @@ to find-new-spot
 end
 
 to update-turtles
+  set current-region [region] of patch-here
+  
   check-if-im-dead
   ;; update age as follows, such that every tick represents a year
   if ticks mod 120 = 0 [

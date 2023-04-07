@@ -7,7 +7,7 @@ globals [
 
 to change-season
   ; New season every 91 days, can be adjusted to months
-  let current-season (ticks / 91) mod 4
+  let current-season (ticks / 120) mod 4
   (ifelse
     current-season = 0 [
       set season "spring"

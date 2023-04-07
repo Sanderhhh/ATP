@@ -115,7 +115,7 @@ number
 number
 0
 10000
-1911.0
+800.0
 1
 1
 NIL
@@ -478,6 +478,26 @@ NetLogo 6.3.0
 @#$#@#$#@
 @#$#@#$#@
 @#$#@#$#@
+<experiments>
+  <experiment name="experiment" repetitions="1" runMetricsEveryStep="true">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="800"/>
+    <metric>likes, [region] of turtles</metric>
+    <enumeratedValueSet variable="number">
+      <value value="800"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="water-sources">
+      <value value="18"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="growth">
+      <value value="0.01"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="biome-sources">
+      <value value="78"/>
+    </enumeratedValueSet>
+  </experiment>
+</experiments>
 @#$#@#$#@
 @#$#@#$#@
 default

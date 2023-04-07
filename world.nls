@@ -132,8 +132,8 @@ to regional-change
       if (pcolor < 59 and pcolor > 50) [set pcolor pcolor + 4] 
       ; change vegitation, moisture
     ]
-    region = "warm" [
-      if (pcolor < 59 and pcolor > 50) [set pcolor pcolor - 2]
+    region = "wet" [
+      if (pcolor < 59 and pcolor > 50) [set pcolor pcolor]
       ; change vegitation, moisture
       ; moisture should probably be zero during this time period as it freezes
       ; same with vegetation, frozen moisture tends to rip apart plants
