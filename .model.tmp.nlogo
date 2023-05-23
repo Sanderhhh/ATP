@@ -100,7 +100,7 @@ growth
 growth
 0
 1
-0.15
+0.1
 0.05
 1
 NIL
@@ -115,7 +115,7 @@ number
 number
 0
 10000
-500.0
+504.0
 1
 1
 NIL
