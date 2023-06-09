@@ -150,10 +150,10 @@ NIL
 1
 
 PLOT
-1051
-256
-1251
-406
+926
+93
+1126
+243
 plot 1
 ticks
 turtles
@@ -162,10 +162,97 @@ turtles
 0.0
 10.0
 true
+true
+"clear-plot" ""
+PENS
+"warm" 1.0 0 -5298144 true "" "plot count total-warm\n"
+"cold" 1.0 0 -8990512 true "" "plot count total-cold\n"
+"wet" 1.0 0 -14730904 true "" "plot count total-wet"
+"dry" 1.0 0 -817084 true "" "plot count total-dry"
+
+PLOT
+928
+260
+1128
+410
+Locations of red agents
+NIL
+NIL
+0.0
+10.0
+0.0
+10.0
+true
+false
+"clear-plot" ""
+PENS
+"warm" 1.0 0 -8053223 true "" "plot count total-warm-red"
+"cold" 1.0 0 -6759204 true "" "plot count total-cold-red\n"
+"dry" 1.0 0 -817084 true "" "plot count total-dry-red\n"
+"wet" 1.0 0 -14730904 true "" "plot count total-wet-red"
+
+PLOT
+1137
+260
+1337
+410
+Locations of white agents
+NIL
+NIL
+0.0
+10.0
+0.0
+10.0
+true
 false
 "" ""
 PENS
-"yo mama" 1.0 0 -16777216 true "" "plot count total-warm"
+"warm" 1.0 0 -8053223 true "" "plot count total-warm-white"
+"cold" 1.0 0 -6759204 true "" "plot count total-cold-white"
+"dry" 1.0 0 -955883 true "" "plot count total-dry-white"
+"wet" 1.0 0 -15390905 true "" "plot count total-wet-white"
+
+PLOT
+928
+416
+1128
+566
+Locations of green agents
+NIL
+NIL
+0.0
+10.0
+0.0
+10.0
+true
+false
+"" ""
+PENS
+"warm" 1.0 0 -5298144 true "" "plot count total-warm-green"
+"cold" 1.0 0 -8990512 true "" "plot count total-cold-green"
+"dry" 1.0 0 -955883 true "" "plot count total-dry-green"
+"wet" 1.0 0 -14730904 true "" "plot count total-wet-green"
+
+PLOT
+1137
+416
+1337
+566
+Locations of yellow agents
+NIL
+NIL
+0.0
+10.0
+0.0
+10.0
+true
+false
+"" ""
+PENS
+"warm" 1.0 0 -5298144 true "" "plot count total-warm-yellow"
+"cold" 1.0 0 -6759204 true "" "plot count total-cold-yellow"
+"dry" 1.0 0 -955883 true "" "plot count total-dry-yellow"
+"wet" 1.0 0 -14730904 true "" "plot count total-wet-yellow"
 
 @#$#@#$#@
 ## WHAT IS IT?

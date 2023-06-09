@@ -6,6 +6,30 @@ extensions [
 
 globals [
  all-data
+ total-warm
+ total-cold
+ total-wet
+ total-dry
+  
+ total-warm-red
+ total-warm-white
+ total-warm-yellow
+ total-warm-green
+ 
+ total-cold-red
+ total-cold-white
+ total-cold-yellow
+ total-cold-green
+  
+ total-dry-red
+ total-dry-white
+ total-dry-yellow
+ total-dry-green
+  
+ total-wet-red
+ total-wet-white
+ total-wet-yellow
+ total-wet-green
 ]
 
 to experiment
@@ -46,6 +70,7 @@ to setup
   ask turtles [
     init-turtle
   ]
+  agents-per-location
 end
 
 to go
@@ -62,13 +87,39 @@ to agents-per-location
   ask turtles [
     set current-region [region] of patch-here
   ]
-  let total-warm sum [current-region] of turtles with [current-region = "warm"]
-  let total-cold sum [current-region] of turtles with [current-region = "cold"]
-  let total-wet sum [current-region] of turtles with [current-region = "wet"]
-  let total-dry sum [current-region] of turtles with [current-region = "dry"]
-  let lst (list total-warm total-cold total-wet total-dry)
-  show all-data
-  set all-data lput lst all-data
+  ; always calculate the more detailed data as well
+  agents-per-type-per-location
+
+  set total-warm turtles with [current-region = "warm"]
+  set total-cold turtles with [current-region = "cold"]
+  set total-wet turtles with [current-region = "wet"]
+  set total-dry turtles with [current-region = "dry"]
+  ;let lst (list total-warm total-cold total-wet total-dry)
+  ;show all-data
+  ;set all-data lput lst all-data
+end
+
+to agents-per-type-per-location
+  set total-warm-red turtles with [current-region = "warm" and likes = red]
+  set total-warm-white turtles with [current-region = "warm" and likes = white]
+  set total-warm-yellow turtles with [current-region = "warm" and likes = yellow]
+  set total-warm-green turtles with [current-region = "warm" and likes = green]
+  
+  set total-cold-red turtles with [current-region = "cold" and likes = red]
+  set total-cold-white turtles with [current-region = "cold" and likes = white]
+  set total-cold-yellow turtles with [current-region = "cold" and likes = yellow]
+  set total-cold-green turtles with [current-region = "cold" and likes = green]
+  
+  set total-dry-red turtles with [current-region = "dry" and likes = red]
+  set total-dry-white turtles with [current-region = "dry" and likes = white]
+  set total-dry-yellow turtles with [current-region = "dry" and likes = yellow]
+  set total-dry-green turtles with [current-region = "dry" and likes = green]
+  
+  set total-wet-red turtles with [current-region = "wet" and likes = red]
+  set total-wet-white turtles with [current-region = "wet" and likes = white]
+  set total-wet-yellow turtles with [current-region = "wet" and likes = yellow]
+  set total-wet-green turtles with [current-region = "wet" and likes = green]
+  
 end
 
 to log-distance
